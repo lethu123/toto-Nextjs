@@ -48,3 +48,6 @@ gh-pages/
 coverage
 
 static/server
+
+/out_publish/
+/out_functions/
