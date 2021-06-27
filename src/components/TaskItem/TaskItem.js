@@ -5,25 +5,27 @@ import { useDispatch } from "react-redux";
 import { deleteTaskAction } from "../../redux/actions/taskAction";
 import tets from "../../containers/Index/style.less";
 
-const TaskItem = ({ item, index, setIndexUpdate, setTask }) => {
+const TaskItem = ({ item, index, setItem, setTask }) => {
 	const dispatch = useDispatch();
 	const confirm = (e) => {
-		dispatch(deleteTaskAction(index));
+		if (item) {
+			dispatch(deleteTaskAction(item.id));
+		}
 	};
 
 	const cancel = (e) => {
 		message.error("Canceled");
 	};
 	const handleUpdate = () => {
-		setIndexUpdate(index + 1);
-		setTask(item);
+		setItem(item);
+		setTask(item.name);
 	};
 	return (
 		<Card bordered={false} className={tets.card_hover}>
 			<Row align="top">
 				<Col className="m-auto" span="22">
 					<span>
-						{index + 1}. {item}
+						{index + 1}. {item.name}
 					</span>
 				</Col>
 				<Col className="m-auto mt-0 text-right" span="2">

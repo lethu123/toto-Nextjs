@@ -15,19 +15,25 @@ const reducer = (state = initialState, action) => {
 				...state,
 				listTask: [
 					...state.listTask.filter(
-						(item, index) => index !== action.payload
+						(item) => item.id !== action.payload
 					),
 				],
 			};
 		}
 		case types.UPDATE_TASK: {
+			const index = state.listTask.findIndex(
+				(item) => item.id === action.payload.id
+			);
 			return {
 				...state,
-				listTask: [
-					...state.listTask.slice(0, action.payload.index),
-					action.payload.item,
-					...state.listTask.slice(action.payload.index + 1),
-				],
+				listTask:
+					index !== -1
+						? [
+								...state.listTask.slice(0, index),
+								action.payload,
+								...state.listTask.slice(index + 1),
+						  ]
+						: [...state.listTask],
 			};
 		}
 

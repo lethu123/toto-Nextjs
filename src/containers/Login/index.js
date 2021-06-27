@@ -31,7 +31,7 @@ const defaultProps = {
 const Login = () => {
 	const dispatch = useDispatch();
 	const router = useRouter();
-	const onFinish = (values) => {
+	const onFinish = (values) => { 
 		dispatch(actionLogin({ ...values }, router));
 	};
 
@@ -56,10 +56,8 @@ const Login = () => {
 								redux, antd, less.
 							</p>
 							<p>Author: Thu Kara (lethu210398@gmail.com)</p>
-							<p className="text-danger">
-								Email: admin@gmail.com
-							</p>
-							<p className="text-danger">Password: admin</p>
+							<p className="text-danger">Username: thulee</p>
+							<p className="text-danger">Password: thu123</p>
 						</div>
 					</div>
 				</div>
@@ -91,7 +89,7 @@ const Login = () => {
 							/>
 							<h1 className="text-primary">Todo Task</h1>
 						</div>
-						<Form.Item
+						{/* <Form.Item
 							name="email"
 							rules={[
 								{
@@ -109,6 +107,23 @@ const Login = () => {
 									<UserOutlined className="site-form-item-icon" />
 								}
 								placeholder="Email"
+							/>
+						</Form.Item> */}
+						<Form.Item
+							name="username"
+							rules={[
+								{
+									required: true,
+									message: "Please input your Username!",
+								},
+							]}
+						>
+							<Input
+								prefix={
+									<UserOutlined className="site-form-item-icon" />
+								}
+								type="text"
+								placeholder="Username"
 							/>
 						</Form.Item>
 						<Form.Item
@@ -128,23 +143,7 @@ const Login = () => {
 								placeholder="Password"
 							/>
 						</Form.Item>
-						<Form.Item
-							name="username"
-							rules={[
-								{
-									required: true,
-									message: "Please input your Username!",
-								},
-							]}
-						>
-							<Input
-								prefix={
-									<UserOutlined className="site-form-item-icon" />
-								}
-								type="text"
-								placeholder="Username"
-							/>
-						</Form.Item>
+
 						<Form.Item>
 							<div className="text-center">
 								<a className="login-form-forgot" href="#none">

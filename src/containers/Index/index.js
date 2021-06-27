@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 //import PropTypes from "prop-types";
 import { EditOutlined } from "@ant-design/icons";
 
-import tets from "../../containers/Index/style.less";
+import tets from "./style.less";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	addTaskAction,
@@ -29,8 +29,13 @@ const defaultProps = {
 };
 
 const Index = (props) => {
+	const user =
+		typeof window !== "undefined"
+			? JSON.parse(window.localStorage.getItem("user"))
+			: "";
+
 	const [task, setTask] = useState("");
-	const [indexUpdate, setIndexUpdate] = useState(null);
+	const [item, setItem] = useState(null);
 	const dispatch = useDispatch();
 	const listTask = useSelector((state) => state.task.listTask);
 
@@ -40,11 +45,18 @@ const Index = (props) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if (indexUpdate) {
-			dispatch(updateTaskAction(task, indexUpdate - 1));
-		} else dispatch(addTaskAction(task));
-		setIndexUpdate(null);
-		setTask("");
+		if (task) {
+			if (item) {
+				dispatch(
+					updateTaskAction(item.id, {
+						name: task || item.name,
+						userId: user.id,
+					})
+				);
+			} else dispatch(addTaskAction({ name: task, userId: user.id }));
+			setTask("");
+			setItem(null);
+		}
 	};
 
 	return (
@@ -84,7 +96,7 @@ const Index = (props) => {
 											<TaskItem
 												item={item}
 												index={index}
-												setIndexUpdate={setIndexUpdate}
+												setItem={setItem}
 												setTask={setTask}
 											/>
 										</Col>

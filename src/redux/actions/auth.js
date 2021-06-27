@@ -7,24 +7,27 @@
  *------------------------------------------------------- */
 
 import { notification } from "antd";
-
+import { userLogin } from '../../services/auth';
 import { SINGLE_API /* , REQUEST_ERROR */ } from "./types";
-import { authLogin } from "../../utils/login-storage";
 
-export const actionLogin = (payload, router) => (dispatch) => {
-	const res = authLogin(payload);
-	if (res.statusCode === 200) {
-		dispatch({
-			type: SINGLE_API,
-			payload,
-		});
-
-		notification.success({
-			message: "Success!",
-			description: "Login success fully",
-		});
-		router.push("/");
-	} else {
+export const actionLogin = (payload, router) => async (dispatch) => {
+	try {
+		const res = await userLogin(payload.username, payload.password);
+		if (res) {
+			if (typeof window !== "undefined") {
+				window.localStorage.setItem("user", JSON.stringify(res.data.result.user));
+			}
+			dispatch({
+				type: SINGLE_API,
+				payload: res.data.result.user,
+			});
+			notification.success({
+				message: "Success!",
+				description: "Login success fully",
+			});
+			router.push("/");
+		}
+	} catch (error) { 
 		notification.error({
 			message: "Fail!",
 			description: "Login fail, try again!",
